@@ -5,10 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Services\RateLimiterService;
 
 class AdminAuthController extends Controller
 {
+
+    protected $rateLimiterService;
+
+    public function __construct(RateLimiterService $rateLimiterService)
+    {
+        $this->rateLimiterService = $rateLimiterService;
+    }
+
     public function login(Request $request) {
+
+        $key = 'admin-login-' . $request->email;
+
+        if (!$this->rateLimiterService->checkRateLimit($key, 3)) {
+            return parent::return_error('Maximum number of attempts reached. Please try again later.', 400, 'Maximum number of attempts reached. Please try again later.');
+        }
 
          $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255',
