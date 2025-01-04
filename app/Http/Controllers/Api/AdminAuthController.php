@@ -19,9 +19,10 @@ class AdminAuthController extends Controller
 
     public function login(Request $request) {
 
-        $key = 'admin-login-' . $request->email;
+        $key_email = 'admin-login-' . $request->email;
+        $key_ip = 'admin-login-ip-' . $request->ip();
 
-        if (!$this->rateLimiterService->checkRateLimit($key, 3)) {
+        if (!$this->rateLimiterService->checkRateLimit($key_email, 3) || !$this->rateLimiterService->checkRateLimit($key_ip, 5)) {
             return parent::return_error('Maximum number of attempts reached. Please try again later.', 400, 'Maximum number of attempts reached. Please try again later.');
         }
 
