@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::namespace('Api')->group(function () {
+Route::namespace('Api')->middleware(['validate.signature'])->group(function () {
 
     Route::post('admin/login', [AdminAuthController::class, 'login']);
     Route::post('login', [AuthController::class, 'login']);
