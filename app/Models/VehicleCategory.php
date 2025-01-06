@@ -17,7 +17,4 @@ class VehicleCategory extends Model
         return $this->hasMany(Vehicle::class);
     }
 
-    public function category() {
-        return $this->belongsTo(VehicleCategory::class);
-    }
 }
