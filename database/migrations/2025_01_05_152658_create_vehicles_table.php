@@ -19,7 +19,7 @@ return new class extends Migration
             $table->json('features')->nullable();
             $table->text('specifications')->nullable();
             $table->decimal('price_per_day', 10, 2)->index();
-            $table->string('image_path')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
